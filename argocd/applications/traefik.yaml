@@ -1,0 +1,58 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik
+  namespace: argocd
+spec:
+  project: default
+  
+  source:
+    repoURL: https://traefik.github.io/charts
+    chart: traefik
+    targetRevision: 26.1.0
+    helm:
+      skipCrds: false
+      valuesObject:
+        # Deploy in kube-system to match current setup
+        deployment:
+          replicas: 1
+        
+        # Service configuration
+        service:
+          type: LoadBalancer
+          annotations:
+            metallb.universe.tf/allow-shared-ip: "traefik"
+        
+        # Ports
+        ports:
+          web:
+            port: 8000
+            exposedPort: 80
+            expose: true
+          websecure:
+            port: 8443
+            exposedPort: 443
+            expose: true
+        
+        # Enable dashboard (optional)
+        ingressRoute:
+          dashboard:
+            enabled: false
+        
+        # Logs
+        logs:
+          general:
+            level: INFO
+          access:
+            enabled: false
+  
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: traefik
+  
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
