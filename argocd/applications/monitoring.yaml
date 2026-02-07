@@ -11,6 +11,7 @@ spec:
     chart: kube-prometheus-stack
     targetRevision: 56.6.2
     helm:
+      skipCrds: false
       valuesObject:
         prometheus:
           prometheusSpec:
@@ -77,3 +78,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true
