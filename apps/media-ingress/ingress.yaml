@@ -1,0 +1,240 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jellyfin
+  namespace: default
+spec:
+  rules:
+  - host: jellyfin.homelab.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: jellyfin-external
+            port:
+              number: 8096
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jellyfin-external
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: 10.10.10.22
+  ports:
+  - port: 8096
+    targetPort: 8096
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sonarr
+  namespace: default
+spec:
+  rules:
+  - host: sonarr.homelab.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sonarr-external
+            port:
+              number: 8989
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarr-external
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: 10.10.10.22
+  ports:
+  - port: 8989
+    targetPort: 8989
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: radarr
+  namespace: default
+spec:
+  rules:
+  - host: radarr.homelab.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: radarr-external
+            port:
+              number: 7878
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr-external
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: 10.10.10.22
+  ports:
+  - port: 7878
+    targetPort: 7878
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bazarr
+  namespace: default
+spec:
+  rules:
+  - host: bazarr.homelab.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: bazarr-external
+            port:
+              number: 6767
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bazarr-external
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: 10.10.10.22
+  ports:
+  - port: 6767
+    targetPort: 6767
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jackett
+  namespace: default
+spec:
+  rules:
+  - host: jackett.homelab.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: jackett-external
+            port:
+              number: 9117
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jackett-external
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: 10.10.10.22
+  ports:
+  - port: 9117
+    targetPort: 9117
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: transmission
+  namespace: default
+spec:
+  rules:
+  - host: transmission.homelab.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: transmission-external
+            port:
+              number: 9091
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: transmission-external
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: 10.10.10.22
+  ports:
+  - port: 9091
+    targetPort: 9091
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jellyseerr
+  namespace: default
+spec:
+  rules:
+  - host: jellyseerr.homelab.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: jellyseerr-external
+            port:
+              number: 5055
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jellyseerr-external
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: 10.10.10.22
+  ports:
+  - port: 5055
+    targetPort: 5055
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: audiobookshelf
+  namespace: default
+spec:
+  rules:
+  - host: audiobookshelf.homelab.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: audiobookshelf-external
+            port:
+              number: 13378
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: audiobookshelf-external
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: 10.10.10.22
+  ports:
+  - port: 13378
+    targetPort: 13378
