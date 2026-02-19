@@ -1,10 +1,36 @@
 ---
+# Jellyfin
+apiVersion: v1
+kind: Service
+metadata:
+  name: jellyfin-external
+  namespace: default
+spec:
+  clusterIP: None
+  ports:
+  - port: 8096
+    targetPort: 8096
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: jellyfin-external
+  namespace: default
+subsets:
+- addresses:
+  - ip: 10.10.10.22
+  ports:
+  - port: 8096
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: jellyfin
   namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
+  ingressClassName: traefik
   rules:
   - host: jellyfin.homelab.local
     http:
@@ -17,24 +43,38 @@ spec:
             port:
               number: 8096
 ---
+# Sonarr
 apiVersion: v1
 kind: Service
 metadata:
-  name: jellyfin-external
+  name: sonarr-external
   namespace: default
 spec:
-  type: ExternalName
-  externalName: 10.10.10.22
+  clusterIP: None
   ports:
-  - port: 8096
-    targetPort: 8096
+  - port: 8989
+    targetPort: 8989
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: sonarr-external
+  namespace: default
+subsets:
+- addresses:
+  - ip: 10.10.10.22
+  ports:
+  - port: 8989
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: sonarr
   namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
+  ingressClassName: traefik
   rules:
   - host: sonarr.homelab.local
     http:
@@ -47,24 +87,38 @@ spec:
             port:
               number: 8989
 ---
+# Radarr
 apiVersion: v1
 kind: Service
 metadata:
-  name: sonarr-external
+  name: radarr-external
   namespace: default
 spec:
-  type: ExternalName
-  externalName: 10.10.10.22
+  clusterIP: None
   ports:
-  - port: 8989
-    targetPort: 8989
+  - port: 7878
+    targetPort: 7878
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: radarr-external
+  namespace: default
+subsets:
+- addresses:
+  - ip: 10.10.10.22
+  ports:
+  - port: 7878
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: radarr
   namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
+  ingressClassName: traefik
   rules:
   - host: radarr.homelab.local
     http:
@@ -77,24 +131,38 @@ spec:
             port:
               number: 7878
 ---
+# Bazarr
 apiVersion: v1
 kind: Service
 metadata:
-  name: radarr-external
+  name: bazarr-external
   namespace: default
 spec:
-  type: ExternalName
-  externalName: 10.10.10.22
+  clusterIP: None
   ports:
-  - port: 7878
-    targetPort: 7878
+  - port: 6767
+    targetPort: 6767
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: bazarr-external
+  namespace: default
+subsets:
+- addresses:
+  - ip: 10.10.10.22
+  ports:
+  - port: 6767
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: bazarr
   namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
+  ingressClassName: traefik
   rules:
   - host: bazarr.homelab.local
     http:
@@ -107,24 +175,38 @@ spec:
             port:
               number: 6767
 ---
+# Jackett
 apiVersion: v1
 kind: Service
 metadata:
-  name: bazarr-external
+  name: jackett-external
   namespace: default
 spec:
-  type: ExternalName
-  externalName: 10.10.10.22
+  clusterIP: None
   ports:
-  - port: 6767
-    targetPort: 6767
+  - port: 9117
+    targetPort: 9117
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: jackett-external
+  namespace: default
+subsets:
+- addresses:
+  - ip: 10.10.10.22
+  ports:
+  - port: 9117
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: jackett
   namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
+  ingressClassName: traefik
   rules:
   - host: jackett.homelab.local
     http:
@@ -137,24 +219,38 @@ spec:
             port:
               number: 9117
 ---
+# Transmission
 apiVersion: v1
 kind: Service
 metadata:
-  name: jackett-external
+  name: transmission-external
   namespace: default
 spec:
-  type: ExternalName
-  externalName: 10.10.10.22
+  clusterIP: None
   ports:
-  - port: 9117
-    targetPort: 9117
+  - port: 9091
+    targetPort: 9091
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: transmission-external
+  namespace: default
+subsets:
+- addresses:
+  - ip: 10.10.10.22
+  ports:
+  - port: 9091
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: transmission
   namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
+  ingressClassName: traefik
   rules:
   - host: transmission.homelab.local
     http:
@@ -167,24 +263,38 @@ spec:
             port:
               number: 9091
 ---
+# Jellyseerr
 apiVersion: v1
 kind: Service
 metadata:
-  name: transmission-external
+  name: jellyseerr-external
   namespace: default
 spec:
-  type: ExternalName
-  externalName: 10.10.10.22
+  clusterIP: None
   ports:
-  - port: 9091
-    targetPort: 9091
+  - port: 5055
+    targetPort: 5055
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: jellyseerr-external
+  namespace: default
+subsets:
+- addresses:
+  - ip: 10.10.10.22
+  ports:
+  - port: 5055
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: jellyseerr
   namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
+  ingressClassName: traefik
   rules:
   - host: jellyseerr.homelab.local
     http:
@@ -197,24 +307,38 @@ spec:
             port:
               number: 5055
 ---
+# Audiobookshelf
 apiVersion: v1
 kind: Service
 metadata:
-  name: jellyseerr-external
+  name: audiobookshelf-external
   namespace: default
 spec:
-  type: ExternalName
-  externalName: 10.10.10.22
+  clusterIP: None
   ports:
-  - port: 5055
-    targetPort: 5055
+  - port: 13378
+    targetPort: 13378
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: audiobookshelf-external
+  namespace: default
+subsets:
+- addresses:
+  - ip: 10.10.10.22
+  ports:
+  - port: 13378
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: audiobookshelf
   namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
+  ingressClassName: traefik
   rules:
   - host: audiobookshelf.homelab.local
     http:
@@ -226,15 +350,3 @@ spec:
             name: audiobookshelf-external
             port:
               number: 13378
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: audiobookshelf-external
-  namespace: default
-spec:
-  type: ExternalName
-  externalName: 10.10.10.22
-  ports:
-  - port: 13378
-    targetPort: 13378
